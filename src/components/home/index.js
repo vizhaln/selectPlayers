@@ -53,7 +53,7 @@ export class Home extends PureComponent {
       return acc;
     }, {});
     if (pointsObj.points <= 75) {
-      this.props.selectedUser(shortList);
+      this.props.selectedPlayer(shortList);
     } else {
       this.setState({ error: true });
     }
