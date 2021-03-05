@@ -19,56 +19,43 @@ export class Home extends PureComponent {
   }
 
   addPlayer = (e, items) => {
+    
     e.preventDefault();
 
     this.state.selected.push(items);
-
-    //block duplicate players
     const newArrId = this.state.selected.filter((item, index) => {
       return this.state.selected.indexOf(item) === index;
     });
-    //   console.log('added==>', newArrId);
+    // console.log("==addplayers", newArrId);
 
-    //condition for Batsman should be less than or equal to 3
-    const arrBatsman = [];
-    const newArrBatsman = newArrId.filter((item) => item.role === "Batsman");
-    newArrBatsman.length <= 3 && arrBatsman.push(newArrBatsman);
-    console.log('batsman==>', arrBatsman);
+    const arrBat = [];
+    const newArrBat = newArrId.filter((item) => item.role === "Batsman");
+    newArrBat.length <= 3 && arrBat.push(newArrBat);
+    // console.log("==newArrBat", arrBat.flat());
 
-    //condition for All-Rounder should be less than or equal to 2
-    const arrAllRounder = [];
-    const newArrAllRounder = newArrId.filter(
-      (item) => item.role === "All-Rounder"
-    );
-    newArrAllRounder.length <= 2 && arrAllRounder.push(newArrAllRounder);
-    console.log('allrounder==>', arrAllRounder);
+    const arrAllRou = [];
+    const newArrAllRou = newArrId.filter((item) => item.role === "All-Rounder");
+    newArrAllRou.length <= 2 && arrAllRou.push(newArrAllRou);
+    // console.log("==newArrAllRou", arrAllRou.flat());
 
-    //condition for Bowler should be less than or equal to 2
-    const arrBowler = [];
-    const newArrBowler = newArrId.filter((item) => item.role === "Bowler");
-    newArrBowler.length <= 2 && arrBowler.push(newArrBowler);
-    console.log('Bowler==>', arrBowler);
+    const arrBowl = [];
+    const newArrBowl = newArrId.filter((item) => item.role === "Bowler");
+    newArrBowl.length <= 2 && arrBowl.push(newArrBowl);
+    // console.log("==newArrBow", arrBowl.flat());
 
-    // combine 3 results in one array
-    const shortList = arrBatsman
-      .flat()
-      .concat(arrAllRounder.flat(), arrBowler.flat());
-    console.log("shortlist", shortList);
-
-    // check total points of players
-    const pointTotal = shortList.reduce((acc, cur) => {
+    const shortList = arrBat.flat().concat(arrAllRou.flat(), arrBowl.flat());
+    // console.log("===shortList", shortList.length);
+    const pointsObj = shortList.reduce((acc, cur) => {
       for (var prop in cur) {
         if (acc.hasOwnProperty(prop)) acc[prop] += cur[prop];
         else acc[prop] = cur[prop];
       }
       return acc;
     }, {});
-    // console.log('pointTotal', pointTotal);
-
-    if(pointTotal.points <= 75){
-        this.props.selectedPlayer(shortList);
+    if (pointsObj.points <= 75) {
+      this.props.selectedUser(shortList);
     } else {
-        this.setState({ error: true});
+      this.setState({ error: true });
     }
   };
 
